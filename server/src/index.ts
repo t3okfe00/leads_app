@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
+import placesRoutes from "./api/routes/placesRoutes";
 
 /* Route Import */
 
@@ -28,7 +29,7 @@ app.get("/", (req, res) => {
 
 /* Server */
 
-// app.use("/places", placesRoutes);
+app.use("/places", placesRoutes);
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
