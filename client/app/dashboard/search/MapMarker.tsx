@@ -10,7 +10,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "/marker-shadow.png",
 });
 type MapMarkerProps = {
-  position: [number, number];
+  position: number[];
   label: string;
 };
 

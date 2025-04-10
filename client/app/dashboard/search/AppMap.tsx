@@ -1,42 +1,71 @@
-// app/dashboard/search/MyMap.tsx
 import { MapContainer } from "react-leaflet/MapContainer";
 import { TileLayer } from "react-leaflet/TileLayer";
-import { useMap } from "react-leaflet/hooks";
+import { useAppSelector } from "@/state/redux"; // Import the hook to access Redux store
 import MapMarker from "./MapMarker";
 import "leaflet/dist/leaflet.css";
-import { Coordinates } from "@/types/types";
+import { Company } from "@/types/types"; // Assuming Company type exists and has geometry.location
+import { useState, useEffect } from "react";
+import { useMap } from "react-leaflet";
+
+function SetMapView({ center }: { center: [number, number] }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (center) {
+      map.setView(center);
+    }
+  }, [center, map]);
+
+  return null;
+}
 
 const MyMap = () => {
-  const locations: Coordinates[] = [
-    [51.505, -0.09],
-    [51.515, -0.1],
-    [51.525, -0.11],
-    [51.535, -0.12],
-    [51.545, -0.13],
-    [51.555, -0.14],
-    [51.565, -0.15],
-    [51.575, -0.16],
-    [51.585, -0.17],
-    [51.595, -0.18],
-  ];
+  const { companies } = useAppSelector((state) => state.company);
+
+  const [mapCenter, setMapCenter] = useState<[number, number]>([51.505, -0.09]); // Default to London
+
+  useEffect(() => {
+    if (companies.length > 0) {
+      const firstCompanyCoordinates = companies[0].geometry?.location;
+      console.log("First Company Coordinates", firstCompanyCoordinates);
+
+      if (
+        firstCompanyCoordinates &&
+        firstCompanyCoordinates.lat &&
+        firstCompanyCoordinates.lng
+      ) {
+        setMapCenter([
+          firstCompanyCoordinates.lat,
+          firstCompanyCoordinates.lng,
+        ]);
+      }
+    }
+  }, [companies]);
+
   return (
     <MapContainer
-      center={[51.505, -0.09]}
+      center={mapCenter}
       zoom={13}
-      scrollWheelZoom={false}
+      scrollWheelZoom={true}
       style={{ height: "100%", width: "100%" }}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      {locations.map((location) => (
-        <MapMarker
-          key={location[0]}
-          position={location}
-          label="SANANE"
-        ></MapMarker>
-      ))}
+      />{" "}
+      <SetMapView center={mapCenter} />
+      {companies.map((company: Company) => {
+        const coordinates = company.geometry?.location;
+        const markerPositions = [coordinates.lat, coordinates.lng];
+
+        return coordinates ? (
+          <MapMarker
+            key={company.place_id}
+            position={markerPositions}
+            label={company.name || "Unnamed"}
+          />
+        ) : null;
+      })}
     </MapContainer>
   );
 };

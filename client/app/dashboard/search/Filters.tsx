@@ -3,14 +3,19 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAppSelector } from "@/state/redux";
 import { useAppDispatch } from "@/state/redux";
+import { setCompanies } from "@/state/slices/companySlice";
+import axios from "axios";
 import {
   Select,
   SelectTrigger,
   SelectItem,
   SelectContent,
 } from "@/components/ui/select";
-import { setFilters } from "@/state";
+import { setFilters } from "@/state/slices/globalSlice";
 import { FilterKey } from "@/types/types";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Company } from "@/types/types";
 
 const placeTypes = [
   { label: "Construction", value: "construction_company" },
@@ -21,11 +26,13 @@ const placeTypes = [
 ];
 
 const Filters = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const { location, company_type, radius } = useAppSelector(
     (state) => state.global.filters
   );
   const filters = useAppSelector((state) => state.global.filters);
-  console.log("Initial Filters", filters);
 
   const dispatch = useAppDispatch();
 
@@ -37,11 +44,34 @@ const Filters = () => {
     console.log("Updating filters");
   };
 
+  const fetchBusinesses = async () => {
+    setIsLoading(true);
+    setError("");
+
+    try {
+      const response = await axios.get("/api/places/search", {
+        params: {
+          query: `${company_type} in ${location}`,
+        },
+      });
+      const data: Company[] = response.data.results;
+
+      // Dispatch to Redux store to set companies
+      dispatch(setCompanies(data));
+
+      console.log("Resp -> ", response);
+    } catch (err) {
+      setError("Failed to fetch businesses");
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="border-2 p-2">
       Filters
       <div className="space-y-1">
-        {/* Input for location */}
         <div>
           <Label htmlFor="location">Search Location</Label>
           <Input
@@ -50,7 +80,7 @@ const Filters = () => {
             onChange={(e) => handleChange("location", e.target.value)}
           ></Input>
         </div>
-        {/* Input for radius */}
+
         <div>
           <Label htmlFor="radius">Search Radius</Label>
           <Input
@@ -59,7 +89,7 @@ const Filters = () => {
             onChange={(e) => handleChange("radius", e.target.value)}
           ></Input>
         </div>
-        {/* Company Type Selection*/}
+
         <div>
           <span>Company Type</span>
           <Select
@@ -77,6 +107,14 @@ const Filters = () => {
           </Select>
         </div>
       </div>
+      <Button
+        onClick={fetchBusinesses}
+        disabled={isLoading}
+        className="hover:opacity-60"
+      >
+        {isLoading ? "Searching..." : "Search Businesses"}
+      </Button>
+      {error && <p className="text-red-500 mt-4">{error}</p>}
     </div>
   );
 };

@@ -35,6 +35,8 @@ export const globalSlice = createSlice({
   },
 });
 
+// COMPANIES
+
 export const { setFilters, toggleFiltersFullOpen } = globalSlice.actions;
 
 export default globalSlice.reducer;

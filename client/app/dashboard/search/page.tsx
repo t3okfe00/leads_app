@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import FiltersBar from "./FiltersBar";
 import Filters from "./Filters";
 import Map from "./Map";
+import Companies from "./Companies";
 
 const SearchPage = () => {
   const searchParams = useSearchParams();
@@ -29,7 +30,7 @@ const SearchPage = () => {
         <Map></Map>
 
         <div className="basis-4/12 overflow-auto">
-          {/* <Listings></Listings> */}
+          <Companies></Companies>
         </div>
       </div>
     </div>
