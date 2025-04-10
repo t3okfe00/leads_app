@@ -6,3 +6,5 @@ export type CompanyType =
   | "electrician";
 
 export type FilterKey = "location" | "radius" | "company_type";
+
+export type Coordinates = [number, number];

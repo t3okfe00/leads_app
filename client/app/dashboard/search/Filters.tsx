@@ -52,7 +52,7 @@ const Filters = () => {
         </div>
         {/* Input for radius */}
         <div>
-          <Label htmlFor="radius">Search Location</Label>
+          <Label htmlFor="radius">Search Radius</Label>
           <Input
             id="radius"
             value={radius}
