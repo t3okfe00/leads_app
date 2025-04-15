@@ -55,7 +55,7 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>
-            <h1 className="text-2xl text-black">JCAD UK PROJECT</h1>
+            <h1 className="text-2xl text-black">Leads App</h1>
           </SidebarGroupLabel>
           <SidebarGroup>
             <SidebarGroupLabel className="text-xl text-black">

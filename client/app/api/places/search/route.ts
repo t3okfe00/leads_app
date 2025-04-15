@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
     );
   }
   try {
-    const response = await axios.get(BASE_URL, {
+    const response = await axios.get(BASE_URL as string, {
       params: {
         query: query || "",
         key: GOOGLE_API_KEY,

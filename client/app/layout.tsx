@@ -4,7 +4,6 @@ import "./globals.css";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { cookies } from "next/headers";
-import Head from "next/head";
 
 import Providers from "./providers";
 

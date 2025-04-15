@@ -9,6 +9,12 @@ export type FilterKey = "location" | "radius" | "company_type";
 
 export type Coordinates = [number, number];
 
+export type CompanyApiResponse = {
+  data: { results: Company[]; error_message?: string };
+  status: number;
+  statusText: string;
+};
+
 export type Company = {
   business_status: string;
   formatted_address: string;
