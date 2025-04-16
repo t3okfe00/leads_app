@@ -1,5 +1,5 @@
 // companySlice.ts
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { Company } from "@/types/types";
 import { fetchCompanies as fetchCompaniesService } from "@/services/companyService";
 

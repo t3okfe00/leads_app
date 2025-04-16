@@ -8,6 +8,7 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import globalReducer from "@/state/slices/globalSlice";
 import { persistReducer, persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
+import likedCompanies from "@/state/slices/likedCompaniesSlice";
 
 import companyReducer from "@/state/slices/companySlice";
 import storage from "redux-persist/lib/storage";
@@ -18,10 +19,18 @@ const companyPersistConfig = {
   key: "company",
   storage,
 };
+const likedCompaniesPersistConfig = {
+  key: "likedCompanies",
+  storage,
+};
 
 const persistedCompanyReducer = persistReducer(
   companyPersistConfig,
   companyReducer
+);
+const persistedLikedCompaniesReducer = persistReducer(
+  likedCompaniesPersistConfig,
+  likedCompanies
 );
 
 export const makeStore = () => {
@@ -29,6 +38,7 @@ export const makeStore = () => {
     reducer: {
       global: globalReducer,
       company: persistedCompanyReducer,
+      likedCompanies: persistedLikedCompaniesReducer,
       [api.reducerPath]: api.reducer,
     },
     middleware: (getDefaultMiddleware) =>
