@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
     });
 
     return NextResponse.json(response.data);
-  } catch (error) {
+  } catch (error: any) {
     return NextResponse.json(
       { error: "Failed to fetch places" },
       { status: 500 }

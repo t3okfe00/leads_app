@@ -18,7 +18,7 @@ const FilterButton = () => {
       onClick={() => dispatch(toggleFiltersFullOpen())}
     >
       <Filter></Filter>
-      Filters
+      Search
     </Button>
   );
 };

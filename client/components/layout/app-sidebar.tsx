@@ -15,17 +15,17 @@ import { Home, Search, ContactRound, NotebookPen } from "lucide-react";
 import Link from "next/link";
 const apis = [
   {
-    title: "LINKEDIN",
-    url: "#",
+    title: "Google Places API",
+    url: "/dashboard/search/google-places",
     icon: Search,
   },
   {
-    title: "CRUNCHBASE",
-    url: "#",
+    title: "LinkedIn API",
+    url: "/dashboard/search/linked-in",
     icon: Search,
   },
   {
-    title: "CLEARBIT",
+    title: "Clearbit",
     url: "#",
     icon: Search,
   },
@@ -60,7 +60,7 @@ export function AppSidebar() {
           <SidebarGroup>
             <SidebarGroupLabel className="text-xl text-black">
               {" "}
-              APIs
+              Search
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>

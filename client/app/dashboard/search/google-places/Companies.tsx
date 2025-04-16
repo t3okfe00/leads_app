@@ -2,7 +2,8 @@ import React from "react";
 import { useAppSelector } from "@/state/redux"; // Import hooks to access Redux store
 
 const Companies: React.FC = () => {
-  const { companies, isCompaniesLoading, companiesError } = useAppSelector(
+  const companies = useAppSelector((state) => state.company.companies);
+  const { isCompaniesLoading, companiesError } = useAppSelector(
     (state) => state.company
   );
 
@@ -11,7 +12,7 @@ const Companies: React.FC = () => {
   }
 
   if (companiesError) {
-    return <div>Error: {companiesError}</div>;
+    return <div>{companiesError}</div>;
   }
 
   return (

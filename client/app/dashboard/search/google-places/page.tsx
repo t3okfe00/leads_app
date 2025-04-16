@@ -1,15 +1,12 @@
 "use client";
 import React from "react";
-import { useAppDispatch, useAppSelector } from "@/state/redux";
-import { useSearchParams } from "next/navigation";
+import { useAppSelector } from "@/state/redux";
 import FiltersBar from "./FiltersBar";
-import Filters from "./Filters";
+import Filters from "./SearchWindow";
 import Map from "./Map";
 import Companies from "./Companies";
 
 const SearchPage = () => {
-  const searchParams = useSearchParams();
-  const dispatch = useAppDispatch();
   const isFiltersFullOpen = useAppSelector(
     (state) => state.global.isFiltersFullOpen
   );

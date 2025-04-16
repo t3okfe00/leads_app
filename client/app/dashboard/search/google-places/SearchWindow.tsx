@@ -3,10 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAppSelector } from "@/state/redux";
 import { useAppDispatch } from "@/state/redux";
-import { fetchCompanies } from "@/services/companyService";
-import { setCompanies, setCompaniesError } from "@/state/slices/companySlice";
-import { CompanyApiResponse } from "@/types/types";
-import { setCompaniesLoading } from "@/state/slices/companySlice";
+
 import {
   SelectTrigger,
   SelectItem,
@@ -15,59 +12,24 @@ import {
 } from "@/components/ui/select";
 import { setFilters } from "@/state/slices/globalSlice";
 import { FilterKey } from "@/types/types";
-import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
+import { fetchCompanies } from "@/state/slices/companySlice";
 
-const placeTypes = [
-  { label: "Construction", value: "construction_company" },
-  { label: "Architect", value: "architect" },
-  { label: "Hardware Store", value: "hardware_store" },
-  { label: "Plumber", value: "plumber" },
-  { label: "Electrician", value: "electrician" },
-];
-
-const Filters = () => {
-  const [error, setError] = useState("");
-  const { isCompaniesLoading, companiesError } = useAppSelector(
-    (state) => state.company
-  );
-
+const SearchWindow = () => {
   const { location, company_type, radius } = useAppSelector(
     (state) => state.global.filters
   );
-  const filters = useAppSelector((state) => state.global.filters);
+  const { isCompaniesLoading } = useAppSelector((state) => state.company);
 
   const dispatch = useAppDispatch();
 
   const handleChange = (key: FilterKey, value: string | number) => {
     dispatch(setFilters({ [key]: value }));
-    const newFilters = { ...filters, ...{ [key]: value } };
-    console.log("New Filter", newFilters);
-
-    console.log("Updating filters");
   };
 
-  const fetchBusinesses = async () => {
-    dispatch(setCompaniesLoading(true));
-    setError("");
-    dispatch(setCompaniesError(""));
-    try {
-      const response: CompanyApiResponse = await fetchCompanies(
-        company_type,
-        location
-      );
-      dispatch(setCompanies(response.data.results));
-      if (response.data.error_message) {
-        throw new Error(response.data.error_message);
-      }
-    } catch (err) {
-      setError("Failed to fetch businesses");
-      dispatch(setCompaniesError(err.message));
-      //dispatch(setCompanies([]));
-      console.error(err);
-    } finally {
-      dispatch(setCompaniesLoading(false));
-    }
+  const fetchBusinesses = () => {
+    dispatch(fetchCompanies({ company_type, location }));
   };
 
   return (
@@ -114,10 +76,17 @@ const Filters = () => {
         disabled={isCompaniesLoading}
         className="hover:opacity-60"
       >
-        {isCompaniesLoading ? "Searching..." : "Search Businesses"}
+        Search
       </Button>
     </div>
   );
 };
 
-export default Filters;
+export default SearchWindow;
+const placeTypes = [
+  { label: "Construction", value: "construction_company" },
+  { label: "Architect", value: "architect" },
+  { label: "Hardware Store", value: "hardware_store" },
+  { label: "Plumber", value: "plumber" },
+  { label: "Electrician", value: "electrician" },
+];

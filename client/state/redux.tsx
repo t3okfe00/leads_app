@@ -6,21 +6,35 @@ import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import globalReducer from "@/state/slices/globalSlice";
+import { persistReducer, persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
 
 import companyReducer from "@/state/slices/companySlice";
+import storage from "redux-persist/lib/storage";
 import { api } from "@/state/api";
 
 /* REDUX STORE */
+const companyPersistConfig = {
+  key: "company",
+  storage,
+};
+
+const persistedCompanyReducer = persistReducer(
+  companyPersistConfig,
+  companyReducer
+);
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       global: globalReducer,
-      company: companyReducer,
+      company: persistedCompanyReducer,
       [api.reducerPath]: api.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(api.middleware),
+      getDefaultMiddleware({
+        serializableCheck: false,
+      }).concat(api.middleware),
   });
 };
 
@@ -31,6 +45,7 @@ export type AppDispatch = AppStore["dispatch"];
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
+let persistor: ReturnType<typeof persistStore>;
 /* PROVIDER */
 export default function StoreProvider({
   children,
@@ -39,8 +54,16 @@ export default function StoreProvider({
 }) {
   const storeRef = useRef<AppStore | null>(null);
   if (!storeRef.current) {
-    storeRef.current = makeStore();
-    setupListeners(storeRef.current.dispatch);
+    const store = makeStore();
+    storeRef.current = store;
+    setupListeners(store.dispatch);
+    persistor = persistStore(store);
   }
-  return <Provider store={storeRef.current}>{children}</Provider>;
+  return (
+    <Provider store={storeRef.current}>
+      <PersistGate loading={null} persistor={persistor}>
+        {children}
+      </PersistGate>
+    </Provider>
+  );
 }
