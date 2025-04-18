@@ -18,7 +18,7 @@ const Companies: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-6 mt-6 max-w-xl mx-auto">
-      <h1>Listings</h1>
+      <h1 className="text-center font-bold text-lg">Listings</h1>
 
       <div className="overflow-y-auto h-[calc(100vh-200px)]">
         {companies?.map((business) => (

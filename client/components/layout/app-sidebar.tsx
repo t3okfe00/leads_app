@@ -34,7 +34,7 @@ const apis = [
 const leads = [
   {
     title: "COMPANIES",
-    url: "#",
+    url: "/dashboard/companies",
     icon: Home,
   },
   {
