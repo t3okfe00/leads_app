@@ -1,9 +1,9 @@
 import { MapContainer } from "react-leaflet/MapContainer";
 import { TileLayer } from "react-leaflet/TileLayer";
-import { useAppSelector } from "@/state/redux"; // Import the hook to access Redux store
-import MapMarker from "./MapMarker";
+import { useAppSelector } from "@/state/redux";
+import MapMarker from "@/app/dashboard/search/google-places/MapMarker";
 import "leaflet/dist/leaflet.css";
-import { Company } from "@/types/types"; // Assuming Company type exists and has geometry.location
+import { Company } from "@/types/types";
 import { useState, useEffect } from "react";
 import { useMap } from "react-leaflet";
 

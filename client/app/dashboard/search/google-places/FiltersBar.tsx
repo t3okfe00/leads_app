@@ -1,6 +1,6 @@
 import React from "react";
 
-import FilterButton from "./FilterButton";
+import FilterButton from "@/app/dashboard/search/google-places/FilterButton";
 
 const FiltersBar = () => {
   return (

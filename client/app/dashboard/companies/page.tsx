@@ -7,6 +7,8 @@ import { useAppDispatch } from "@/state/redux";
 import { removeLikedCompany } from "@/state/slices/likedCompaniesSlice";
 import { Mail, Phone, MapPin } from "lucide-react";
 import AddCompanyForm from "@/components/companies/AddCompanyForm";
+// TODO: When connect a database, make AddCompanyForm useclient
+// make this server component
 
 const CompaniesPage = () => {
   const { likedCompanies } = useAppSelector((state) => state.likedCompanies);
@@ -21,7 +23,7 @@ const CompaniesPage = () => {
       <div className="flex flex-col items-center justify-center w-full h-full">
         <h1 className="text-xl font-semibold mb-2">Liked Companies</h1>
         <p className="text-gray-500 text-sm">
-          You have not liked any companies yet.
+          You have not added any company to list yet.
         </p>
       </div>
     );
@@ -141,7 +143,7 @@ const CompaniesPage = () => {
                     variant="outline"
                     size="sm"
                     className="text-xs text-red-600 hover:text-red-700 border-red-200 hover:border-red-300 hover:bg-red-50 h-5 px-1 ml-auto"
-                    onClick={() => handleRemoveCompany(company.id)}
+                    onClick={() => handleRemoveCompany(company.place_id)}
                   >
                     ✕
                   </Button>

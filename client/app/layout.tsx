@@ -1,19 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { cookies } from "next/headers";
+import { ToastContainer } from "react-toastify";
+import { roboto, openSans } from "@/app/fonts";
+import { Inter } from "next/font/google";
 
 import Providers from "./providers";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
 });
 
@@ -33,12 +30,13 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${roboto.variable} ${openSans.variable} ${inter.className} antialiased`}
       >
+        <ToastContainer aria-label="toast notifications"></ToastContainer>
         <SidebarProvider defaultOpen={defaultOpen}>
           <AppSidebar></AppSidebar>
 
-          <SidebarTrigger></SidebarTrigger>
+          <SidebarTrigger className="py-10"></SidebarTrigger>
           <Providers>{children}</Providers>
         </SidebarProvider>
       </body>
