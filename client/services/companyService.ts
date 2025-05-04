@@ -12,10 +12,9 @@ export const fetchCompanies = async (
         query: `${company_type} in ${location}`,
       },
     });
-    console.log("Companies API Response", response);
+
     return response;
   } catch (err) {
-    console.error("Failed to fetch businesses", err);
     throw new Error("Failed to fetch businesses");
   }
 };

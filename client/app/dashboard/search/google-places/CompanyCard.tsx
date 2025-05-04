@@ -1,9 +1,9 @@
-import React from "react";
 import { Company } from "@/types/types";
 import { Button } from "@/components/ui/button";
 import { useAppDispatch } from "@/state/redux";
 import { addLikedCompany } from "@/state/slices/likedCompaniesSlice";
 import { toast } from "react-toastify";
+import { Badge } from "@/components/ui/badge";
 
 interface CompanyCardProps {
   company: Company;
@@ -26,7 +26,7 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
   };
 
   return (
-    <div className="bg-surface p-6 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 ease-in-out w-full mx-auto border border-surface mt-4 border-dtGreen-100">
+    <div className="group bg-surface p-6 rounded-2xl shadow-md hover:shadow-lg transition-all duration-700 ease-in-out w-full mx-auto border border-surface mt-4 border-dtBlue-50 hover:bg-slate-100">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-xl font-bold text-gray-800">
           {company?.name || "N/A"}
@@ -34,7 +34,7 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
         <Button
           size="sm"
           onClick={handleLikeCompany}
-          className="hover:bg-gray-200 hover:text-black hover:border-black hover:border-2"
+          className="border-2 border-black bg-white text-black hover:bg-slate-200"
         >
           Add To List
         </Button>
@@ -63,6 +63,17 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
         {company?.formatted_address || "N/A"}
       </div>
 
+      <div>
+        {company?.types?.map((type, index) => (
+          <Badge
+            key={index}
+            variant="outline"
+            className="text-xs font-semibold mr-1 border-r-1 border-black group-hover:border-black group-hover:bg-white transition-colors duration-700 ease-in-out"
+          >
+            {type}
+          </Badge>
+        ))}
+      </div>
       <div className="flex items-center justify-between mt-3">
         <span
           className={`inline-block px-4 py-1 text-xs font-semibold rounded-full ${
