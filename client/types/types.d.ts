@@ -16,6 +16,7 @@ export type CompanyApiResponse = {
 };
 
 export type Company = {
+  id: string;
   business_status: string;
   formatted_address: string;
   geometry: {
@@ -30,7 +31,9 @@ export type Company = {
   opening_hours: {
     open_now: boolean;
   };
-  placeId: string;
+
   reference: string;
   types: string[];
+  email: string;
+  website: string?;
 };

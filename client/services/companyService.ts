@@ -13,6 +13,7 @@ export const fetchCompanies = async (
       },
     });
 
+    console.log("Response from API:", response.data);
     return response;
   } catch (err) {
     throw new Error("Failed to fetch businesses");
