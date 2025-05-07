@@ -7,3 +7,4 @@ server/dist
 server/node_modules
 server/.env
 .vscode
+client/generated/prisma/

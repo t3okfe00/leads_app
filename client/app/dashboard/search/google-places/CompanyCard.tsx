@@ -1,9 +1,13 @@
 import { Company } from "@/types/types";
-import { Button } from "@/components/ui/button";
+
 import { useAppDispatch } from "@/state/redux";
 import { addLikedCompany } from "@/state/slices/likedCompaniesSlice";
 import { toast } from "react-toastify";
 import { Badge } from "@/components/ui/badge";
+import { createCompany } from "@/lib/db/repositories/companyRepository";
+import CustomButton from "@/components/companies/CustomButton";
+
+import { mapGooglePlacesToCompanyDTO } from "@/utils/mapGooglePlacesToCompanyDTO";
 
 interface CompanyCardProps {
   company: Company;
@@ -31,13 +35,14 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
         <h3 className="text-xl font-bold text-gray-800">
           {company?.name || "N/A"}
         </h3>
-        <Button
+        <CustomButton
           size="sm"
-          onClick={handleLikeCompany}
+          onClick={() => createCompany(mapGooglePlacesToCompanyDTO(company))}
           className="border-2 border-black bg-white text-black hover:bg-slate-200"
+          variant="secondary"
         >
           Add To List
-        </Button>
+        </CustomButton>
       </div>
 
       <div className="text-sm text-gray-600 mb-3">

@@ -1,29 +1,39 @@
 // companySlice.ts
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { Company } from "@/types/types";
+import { GooglePlacesCompany } from "@/types/types";
 import { fetchCompanies as fetchCompaniesService } from "@/services/companyService";
+import axios from "axios";
 
 interface CompanyState {
-  companies: Company[];
+  companies: GooglePlacesCompany[];
   isCompaniesLoading: boolean;
   companiesError: string | null;
 }
 
 export const fetchCompanies = createAsyncThunk(
-  "company/fetchCompanies", // Action type
+  "company/fetchCompanies", 
   async (
     params: { company_type: string; location: string },
     { rejectWithValue }
   ) => {
     try {
+      
       const { company_type, location } = params;
       const response = await fetchCompaniesService(company_type, location);
       if (response.data.error_message) {
+      
         return rejectWithValue(response.data.error_message);
       }
+     
+      // action.payload
       return response.data.results;
     } catch (err) {
-      return rejectWithValue(err.data.message);
+      if(axios.isAxiosError(err)){
+       
+        return rejectWithValue(err.response?.statusText);
+      }
+      
+      return rejectWithValue("An unexpected error occurred");
     }
   }
 );
@@ -42,7 +52,7 @@ const companySlice = createSlice({
     builder
       .addCase(fetchCompanies.pending, (state) => {
         state.isCompaniesLoading = true;
-        state.companiesError = null; // Reset error when fetching
+        state.companiesError = null;
       })
       .addCase(fetchCompanies.fulfilled, (state, action) => {
         state.isCompaniesLoading = false;

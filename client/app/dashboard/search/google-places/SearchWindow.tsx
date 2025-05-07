@@ -29,6 +29,7 @@ const SearchWindow = () => {
   };
 
   const fetchBusinesses = () => {
+    
     dispatch(fetchCompanies({ company_type, location }));
   };
 

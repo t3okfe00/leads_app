@@ -15,7 +15,7 @@ datasource db {
 }
 
 model Company {
-  id               Int      @id @default(autoincrement())
+  id               String   @id @default(uuid())
   placeId          String   @unique
   email            String?  @unique
   name             String
@@ -24,7 +24,7 @@ model Company {
   latitude         Float
   longitude        Float
   rating           Float
-  phone            String   @unique
+  phone            String?  @unique
   website          String?  @unique
   types            String[]
   createdAt        DateTime @default(now())

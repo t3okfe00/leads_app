@@ -10,12 +10,12 @@ export type FilterKey = "location" | "radius" | "company_type";
 export type Coordinates = [number, number];
 
 export type CompanyApiResponse = {
-  data: { results: Company[]; error_message?: string };
+  data: { results: GooglePlacesCompany[]; error_message?: string, next_page_token: string,status:string };
   status: number;
   statusText: string;
 };
 
-export type Company = {
+export type GooglePlacesCompany = {
   id: string;
   business_status: string;
   formatted_address: string;
@@ -34,6 +34,18 @@ export type Company = {
 
   reference: string;
   types: string[];
-  email: string;
-  website: string?;
+};
+
+export type CompanyDTO = {
+  placeId: string;
+  email?: string | null;
+  name: string;
+  businessStatus: string;
+  formattedAddress: string;
+  latitude: number;
+  longitude: number;
+  rating: number;
+  phone?: string | null;
+  types: string[];
+  website?: string | null;
 };
